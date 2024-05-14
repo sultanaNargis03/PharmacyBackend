@@ -7,8 +7,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pharma.model.Cart;
 import com.pharma.model.Medicine;
 import com.pharma.model.MedicineWrapper;
+import com.pharma.repo.ICartRepository;
 import com.pharma.repo.IMedicineRepo;
 
 @Service
@@ -16,6 +18,9 @@ public class MedicineServiceImpl implements IMedicineService {
 
 	@Autowired
 	IMedicineRepo repo;
+	
+	@Autowired
+	ICartRepository cartRepo;
 	
 	@Override
 	public String addMedicine(Medicine medicine) 
@@ -78,7 +83,6 @@ public class MedicineServiceImpl implements IMedicineService {
 	@Override
 	public String addToCart(String medicineName,Integer medicineQuantity) 
 	{
-		List<MedicineWrapper> wrappers=new ArrayList<>();
 		
 		Medicine med=repo.findBymedicineName(medicineName);
 		if(medicineQuantity>med.getMedicineQuantity())
@@ -92,6 +96,16 @@ public class MedicineServiceImpl implements IMedicineService {
 			med.setMedicineQuantity(med.getMedicineQuantity()-medicineQuantity);
 			
 			repo.save(med);
+			
+			Integer totalQ=0;
+			//totalQ+=medicineQuantity;
+			Cart cart=new Cart();
+			cart.setId(med.getId());
+			cart.setItemName(medicineName);
+			cart.setItemQuantity(medicineQuantity);
+			cart.setItemPrice(total);
+		//	cart.setTotalItem(totalQ);
+			cartRepo.save(cart);
 
 			return "Medicine "+med.getmedicineName()+" added to cart successfully!!"+" $ "+total;
 		}
