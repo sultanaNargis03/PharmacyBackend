@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class MedicineController
 	
 	@Operation(summary="POST operation",description="API will accept json medicine(don't need to give id,id is auto incremented) obj and add new medicine")
 	@PostMapping("/medicine")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> addMedicine(@RequestBody Medicine medicine)
 	{
 		String msg=service.addMedicine(medicine);
@@ -55,7 +57,7 @@ public class MedicineController
 	}
 	
 	@Operation(summary="PUT operation",description="API will accept json medicine obj and update medicine info")
-	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/medicine/{id}")
 	public ResponseEntity<String> updateMedicine(@PathVariable("id") Integer id,@RequestBody Medicine medicine)
 	{
@@ -72,6 +74,7 @@ public class MedicineController
 	}
 
 	@Operation(summary="DELETE operation",description="API will accept medicine id and get delete medicine")
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/medicine/{id}")
 	public ResponseEntity<String> deleteMedicineById(@PathVariable("id") Integer id)
 	{

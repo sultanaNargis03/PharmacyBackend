@@ -60,14 +60,17 @@ public class AuthController
 	        }
 	        
 	        UserEntity user = new UserEntity();
+	        
 	        user.setUsername(registerDto.getUsername());
-	        System.out.println(registerDto.getUsername());
 	        user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
-	        System.out.println(registerDto.getPassword());
+	      //  System.out.println(registerDto.getPassword());
+	        user.setEmail(registerDto.getEmail());
+	        user.setPhnNo(registerDto.getPhnNo());
 	        
 	        Roles roles = roleRepository.findByName("USER").get();
 	        user.setRoles(Collections.singletonList(roles));
-	        System.out.println(user.getRoles());
+	        //System.out.println(user.getRoles());
+	        
 	        userRepository.save(user);
 
 	        return new ResponseEntity<>("User registered success!", HttpStatus.OK);

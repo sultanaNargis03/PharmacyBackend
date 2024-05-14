@@ -53,23 +53,6 @@ public class SecurityConfig
 		
 	}
 	
-//	@Bean
-//	public UserDetailsService users()
-//	{
-//		UserDetails admin= User.builder()
-//				.username("Nargis")
-//				.password("n@123")
-//				.roles("ADMIN")
-//				.build()
-//				;
-//		UserDetails user= User.builder()
-//				.username("user1")
-//				.password("u@1")
-//				.roles("USER")
-//				.build()
-//				;
-//		return new InMemoryUserDetailsManager(admin,user);
-//	}
 	 @Bean
 	    public AuthenticationManager authenticationManager(
 	            AuthenticationConfiguration authenticationConfiguration) throws Exception {
