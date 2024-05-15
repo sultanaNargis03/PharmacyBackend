@@ -1,29 +1,33 @@
 package com.pharma.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Cart 
 {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Integer totalItem;
 	private String itemName;
 	private Double itemPrice;
 	private Integer itemQuantity;
 	
+//	@OneToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER)
+//	private UserEntity user;
+	
 	public Cart() 
 	{
-		// TODO Auto-generated constructor stub
+		
 	}
 
-	public Cart(Integer id, Integer totalItem, String itemName, Double itemPrice, Integer itemQuantity) {
+	public Cart(Integer id,String itemName, Double itemPrice, Integer itemQuantity) {
 		super();
 		this.id = id;
-		this.totalItem = totalItem;
 		this.itemName = itemName;
 		this.itemPrice = itemPrice;
 		this.itemQuantity = itemQuantity;
@@ -37,13 +41,6 @@ public class Cart
 		this.id = id;
 	}
 
-	public Integer getTotalItem() {
-		return totalItem;
-	}
-
-	public void setTotalItem(Integer totalItem) {
-		this.totalItem = totalItem;
-	}
 
 	public String getItemName() {
 		return itemName;
@@ -71,8 +68,8 @@ public class Cart
 
 	@Override
 	public String toString() {
-		return "Cart [id=" + id + ", totalItem=" + totalItem + ", itemName=" + itemName + ", itemPrice=" + itemPrice
-				+ ", itemQuantity=" + itemQuantity + "]";
+		return "Cart [id=" + id + ", itemName=" + itemName + ", itemPrice=" + itemPrice + ", itemQuantity="
+				+ itemQuantity + "]";
 	}
 
 }

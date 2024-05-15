@@ -85,26 +85,27 @@ public class MedicineServiceImpl implements IMedicineService {
 	{
 		
 		Medicine med=repo.findBymedicineName(medicineName);
+		Cart cart=new Cart();
+		
 		if(medicineQuantity>med.getMedicineQuantity())
 		{
 			return "Medicine "+med.getmedicineName()+" not availble!!";
 		}
 		else
 		{
+			if(cartRepo.existsByItemName(medicineName))
+			{
+				
+			}
 			Double price=med.getMedicinePrice();
 			Double total=price*medicineQuantity;
 			med.setMedicineQuantity(med.getMedicineQuantity()-medicineQuantity);
-			
 			repo.save(med);
 			
-			Integer totalQ=0;
-			//totalQ+=medicineQuantity;
-			Cart cart=new Cart();
-			cart.setId(med.getId());
+			
 			cart.setItemName(medicineName);
 			cart.setItemQuantity(medicineQuantity);
 			cart.setItemPrice(total);
-		//	cart.setTotalItem(totalQ);
 			cartRepo.save(cart);
 
 			return "Medicine "+med.getmedicineName()+" added to cart successfully!!"+" $ "+total;
