@@ -73,4 +73,10 @@ public class MedicineServiceImpl implements IMedicineService {
 			return "Medicine with id "+id +" not exist!!";
 	}
 
+	@Override
+	public Medicine showMedicineByMedicineName(String medicineName) 
+	{
+		return repo.findBymedicineName(medicineName);
+	}
+
 }

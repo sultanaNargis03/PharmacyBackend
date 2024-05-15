@@ -10,6 +10,7 @@ public interface IMedicineService
 	public String addMedicine(Medicine medicine);
 	public List<Medicine> showAllMedicines();
 	public Medicine showMedicineById(Integer id);
+	public Medicine showMedicineByMedicineName(String medicineName);
 	public String deleteMedicineById(Integer id);
 	public String updateMedicine(Integer id,Medicine medicine);
 

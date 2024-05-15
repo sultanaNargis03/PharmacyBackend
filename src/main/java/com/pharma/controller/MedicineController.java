@@ -56,6 +56,14 @@ public class MedicineController
 		return new ResponseEntity<>(medicine,HttpStatus.OK);
 	}
 	
+	@Operation(summary="GET operation",description="API will accept medicine name and get medicine info")
+	@GetMapping("/medicine/{medicineName}")
+	public ResponseEntity<Medicine> showMedicineByMedicineName(String medicineName)
+	{
+		Medicine medicine = service.showMedicineByMedicineName(medicineName);
+		return new ResponseEntity<>(medicine,HttpStatus.OK);
+	}
+	
 	@Operation(summary="PUT operation",description="API will accept json medicine obj and update medicine info")
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/medicine/{id}")
