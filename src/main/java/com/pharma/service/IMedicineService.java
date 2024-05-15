@@ -12,6 +12,5 @@ public interface IMedicineService
 	public Medicine showMedicineById(Integer id);
 	public String deleteMedicineById(Integer id);
 	public String updateMedicine(Integer id,Medicine medicine);
-	public String addToCart(String name,Integer medicineQuantity);
 
 }

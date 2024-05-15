@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.Operation;
 public class CartController {
 	@Autowired
 	CartServiceImpl service;
-	//@Operation(summary="POST operation",description="API will accept medicine name and json medicine quantity and will add the medicine to the cart")
+	@Operation(summary="POST operation",description="API will accept medicine name and json medicine quantity and will add the medicine to the cart")
 	@PostMapping("/cart/{medicineName}")
 	public ResponseEntity<String> addToCart(@PathVariable("medicineName") String medicineName, @RequestBody Integer medicineQuantity)
 	{

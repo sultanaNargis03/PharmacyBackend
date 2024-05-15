@@ -18,7 +18,6 @@ public class CartServiceImpl implements ICartService
 	@Autowired
 	ICartRepository cartRepo;
 	
-	
 	@Override
 	public String addToCart(String medicineName,Integer medicineQuantity) 
 	{
@@ -37,7 +36,6 @@ public class CartServiceImpl implements ICartService
 			{
 				Cart existingItem=cartRepo.findByItemName(medicineName);
 				medicineQuantity+=existingItem.getItemQuantity();
-				int id= existingItem.getId();
 				cart.setId(existingItem.getId());
 			}
 			

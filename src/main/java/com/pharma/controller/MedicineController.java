@@ -65,14 +65,6 @@ public class MedicineController
 		return new ResponseEntity<>(msg,HttpStatus.OK);
 	}
 	
-	@Operation(summary="POST operation",description="API will accept medicine name and json medicine quantity and will add the medicine to the cart")
-	@PostMapping("/medicine/{medicineName}")
-	public ResponseEntity<String> addToCart(@PathVariable("medicineName") String medicineName, @RequestBody Integer medicineQuantity)
-	{
-		String msg = service.addToCart(medicineName,medicineQuantity);
-		return new ResponseEntity<>(msg,HttpStatus.OK);
-	}
-
 	@Operation(summary="DELETE operation",description="API will accept medicine id and get delete medicine")
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/medicine/{id}")
