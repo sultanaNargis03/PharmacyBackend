@@ -10,6 +10,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig 
+public class SecurityConfig
 {
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
@@ -44,6 +45,7 @@ public class SecurityConfig
         .and()
         .authorizeRequests()
         .requestMatchers("/api/auth/**").permitAll()
+        .requestMatchers("/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .httpBasic();

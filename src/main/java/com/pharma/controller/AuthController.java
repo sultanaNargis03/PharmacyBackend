@@ -1,13 +1,17 @@
 package com.pharma.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,11 +25,21 @@ import com.pharma.model.Roles;
 import com.pharma.model.UserEntity;
 import com.pharma.repo.RoleRepository;
 import com.pharma.repo.UserRepository;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.core.io.ClassPathResource;
+
 import java.util.Collections;
+import java.util.Date;
 
 
+@CrossOrigin(origins="http://localhost:5173/")
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name="Pharmacy-auth",description="This API URL will help to authenticate and authorize users")
 public class AuthController 
 {
 	@Autowired
@@ -39,20 +53,27 @@ public class AuthController
 	@Autowired
     private PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private JavaMailSender sender;
+	
+	@Value("{spring.mail.username}")
+	private String fromId;
+	
 	@PostMapping("login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto,HttpSession session){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(),
                 loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        //session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
         String token = jwtGenerator.generateToken(authentication);
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 	
 	
 	 @PostMapping("/register")
-	    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) 
+	    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) throws MessagingException 
 	 	{
 	        if (userRepository.existsByUsername(registerDto.getUsername())) 
 	        {
@@ -72,6 +93,18 @@ public class AuthController
 	        //System.out.println(user.getRoles());
 	        
 	        userRepository.save(user);
+	        String message="Assalamu alaikum "+registerDto.getUsername()+" You have been successfully registered to Pharma App";
+	        MimeMessage mimeMessage = sender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+			
+			helper.setFrom(fromId);
+			helper.setCc(registerDto.getEmail());
+			helper.setSubject("Something Important");
+			helper.setSentDate(new Date());
+			helper.addAttachment("pharma.jpeg", new ClassPathResource("com/pharma/image/pharma.jpeg"));
+			helper.setText(message);
+			
+			sender.send(mimeMessage);
 
 	        return new ResponseEntity<>("User registered success!", HttpStatus.OK);
 	    }

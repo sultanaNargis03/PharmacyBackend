@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @CrossOrigin(origins="http://localhost:5173/")
 @RestController
 @RequestMapping("/api")
-@Tag(name="Pharmacy",description="This API URL will help to order medicine")
+@Tag(name="Pharmacy-medicine",description="This API URL will help to manage medicine")
 public class MedicineController 
 {
 	@Autowired
