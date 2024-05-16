@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,12 @@ public class CartController {
 	public ResponseEntity<String> addToCart(@PathVariable("medicineName") String medicineName, @RequestBody Integer medicineQuantity)
 	{
 		String msg = service.addToCart(medicineName,medicineQuantity);
+		return new ResponseEntity<>(msg,HttpStatus.OK);
+	}
+	@DeleteMapping("/cart/{id}")
+	public ResponseEntity<String> removeFromCart(@PathVariable("id")Integer id)
+	{
+		String msg=service.removeFromCart(id);
 		return new ResponseEntity<>(msg,HttpStatus.OK);
 	}
 }

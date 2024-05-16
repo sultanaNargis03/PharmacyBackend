@@ -93,7 +93,7 @@ public class AuthController
 	        //System.out.println(user.getRoles());
 	        
 	        userRepository.save(user);
-	        String message="Assalamu alaikum "+registerDto.getUsername()+" You have been successfully registered to Pharma App";
+	        String message="Assalamu alaikum "+registerDto.getUsername()+" You have been successf ully registered to Pharma App";
 	        MimeMessage mimeMessage = sender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 			

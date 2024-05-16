@@ -10,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class UserEntity 
@@ -17,11 +19,15 @@ public class UserEntity
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+
 	private String username;
 	private String password;
 	private String email;
 	private String phnNo;
 	
+	@OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+	private List<Cart> cart;
 	@ManyToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private List<Roles> roles=new ArrayList<>();
 	
@@ -48,6 +54,14 @@ public class UserEntity
 		this.email = email;
 		this.phnNo = phnNo;
 		this.roles = roles;
+	}
+	
+	public List<Cart> getCart() {
+		return cart;
+	}
+
+	public void setCart(List<Cart> cart) {
+		this.cart = cart;
 	}
 
 	public Long getId() {
