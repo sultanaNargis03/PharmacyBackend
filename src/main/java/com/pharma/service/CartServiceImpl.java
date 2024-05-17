@@ -1,5 +1,6 @@
 package com.pharma.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,20 @@ public class CartServiceImpl implements ICartService
 			
 				return "id "+id+ " not exist!";
 			
+	}
+
+
+	@Override
+	public List<Cart> showCarts()
+	{
+		 UserEntity user = getCurrentUser().get();
+		 
+		List<Cart> cartItems = cartRepo.findByUser(user);
+		if(cartItems.isEmpty())
+		{
+			return null;
+		}
+		 return cartItems;
 	}	
 
 }
