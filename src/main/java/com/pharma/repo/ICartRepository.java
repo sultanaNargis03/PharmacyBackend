@@ -12,4 +12,5 @@ public interface ICartRepository extends JpaRepository<Cart, Integer>
 	boolean existsByItemName(String itemName);
 	Cart findByItemName(String itemName);
 	List<Cart> findByUser(UserEntity user);
+	Cart findByUserAndItemName(UserEntity user,String itemName);
 }

@@ -11,7 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+
 
 @Entity
 public class UserEntity 
@@ -45,17 +45,18 @@ public class UserEntity
 	}
 
 
-
-	public UserEntity(Long id, String username, String password, String email, String phnNo, List<Roles> roles) {
+	public UserEntity(Long id, String username, String password, String email, String phnNo, List<Cart> cart,
+			List<Roles> roles) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.phnNo = phnNo;
+		this.cart = cart;
 		this.roles = roles;
 	}
-	
+
 	public List<Cart> getCart() {
 		return cart;
 	}
@@ -107,7 +108,7 @@ public class UserEntity
 	@Override
 	public String toString() {
 		return "UserEntity [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", phnNo=" + phnNo + ", roles=" + roles + "]";
+				+ ", phnNo=" + phnNo + ", cart=" + cart + ", roles=" + roles + "]";
 	}
 	
 

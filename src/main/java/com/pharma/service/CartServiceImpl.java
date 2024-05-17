@@ -1,8 +1,5 @@
 package com.pharma.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +27,8 @@ public class CartServiceImpl implements ICartService
 	@Autowired
 	UserRepository userRepo;
 	
-	public Optional<UserEntity> getCurrentUser() {
+	public Optional<UserEntity> getCurrentUser()
+	{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userRepo.findByUsername(authentication.getName());
     }
@@ -38,24 +36,13 @@ public class CartServiceImpl implements ICartService
 	@Override
 	public String addToCart(String medicineName,Integer medicineQuantity) 
 	{
-		//List<Cart> carts = cartRepo.findAll();
-	
+			
 		UserEntity user = getCurrentUser().get();
-		Long uid=user.getId();
 		
-//		boolean flag=false;
-//		Optional<UserEntity> ex = userRepo.findById(uid);
-//		List<Cart> userCart = ex.get().getCart();
-//		for(Cart c:userCart)
-//		{
-//			System.out.println("ItemName: "+c.getItemName());
-//			if(c.getItemName().equals(medicineName))
-//			{
-//				flag=true;
-//			}
-//		}
-		
+		Cart existingCart=cartRepo.findByUserAndItemName(user, medicineName);
+		System.out.println("existingCart: "+existingCart);
 		Medicine med=repo.findBymedicineName(medicineName);
+		
 		Cart cart=new Cart();
 		
 		if(medicineQuantity>med.getMedicineQuantity())
@@ -65,21 +52,13 @@ public class CartServiceImpl implements ICartService
 		else
 		{
 			
-			if(cartRepo.existsByItemName(medicineName))
+			
+			if(existingCart!=null)
 			{
-					
-//				if(flag==true)
-//				{
-					Cart existingItem=cartRepo.findByItemName(medicineName);
-					medicineQuantity+=existingItem.getItemQuantity();
-					cart.setId(existingItem.getId());
-		//		}
-						
+				medicineQuantity+=existingCart.getItemQuantity();
+				cart.setId(existingCart.getId());
+			
 			}		
-					
-				
-				
-			}
 			
 			Double price=med.getMedicinePrice();
 			Double total=price*medicineQuantity;
@@ -90,23 +69,32 @@ public class CartServiceImpl implements ICartService
 			cart.setItemQuantity(medicineQuantity);
 			cart.setItemPrice(total);
 			cart.setUser(user);
-			//System.out.println(cart.getUser().getId());
 			cartRepo.save(cart);
-			
+					
 			return "Medicine "+med.getmedicineName()+" added to cart successfully!!"+" $ "+total;
-		
+		}
 	}
 
 	@Override
-	public String removeFromCart(Integer id) {
+	public String removeFromCart(Integer id) 
+	{
+		Long currentuserId = getCurrentUser().get().getId();
 		
 		Optional<Cart> cart=cartRepo.findById(id);
-		if(cart.isPresent())
-		{
-			cartRepo.deleteById(id);
-			return "deleted!!";
-		}
-		return "id "+id+ "not exist!";
+		
+		
+			if(cart.isPresent())
+			{
+				if(cart.get().getUser().getId()==currentuserId)
+				{
+					cartRepo.deleteById(id);
+					return cart.get().getItemName()+" with id "+id+" has been deleted!!";
+				}
+				return "you not authorized to remove the item with id "+id;
+			}
+			
+				return "id "+id+ " not exist!";
+			
 	}	
 
 }

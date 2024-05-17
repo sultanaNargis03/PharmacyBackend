@@ -1,14 +1,11 @@
 package com.pharma.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-
 
 @Entity
 public class Cart 
@@ -17,6 +14,7 @@ public class Cart
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String itemName;
+	
 	public UserEntity getUser() {
 		return user;
 	}
@@ -28,7 +26,7 @@ public class Cart
 	private Double itemPrice;
 	private Integer itemQuantity;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private UserEntity user;
 	
 	public Cart() 
