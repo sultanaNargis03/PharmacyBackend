@@ -102,12 +102,14 @@ public class CartServiceImpl implements ICartService
 	@Override
 	public List<Cart> showCarts()
 	{
+	//	return cartRepo.findAll();
 		 UserEntity user = getCurrentUser().get();
 		 
 		List<Cart> cartItems = cartRepo.findByUser(user);
 		if(cartItems.isEmpty())
 		{
 			return null;
+			//throw new RuntimeException("your cart is empty!!");
 		}
 		 return cartItems;
 	}	

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +21,20 @@ import com.pharma.model.Medicine;
 import com.pharma.service.MedicineServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @CrossOrigin(origins="http://localhost:5173/")
 @RestController
 @RequestMapping("/api")
+//@SecurityScheme(
+//		  name = "Bearer Authentication",
+//		  type = SecuritySchemeType.HTTP,
+//		  bearerFormat = "JWT",
+//		  scheme = "bearer"
+//		)
 @Tag(name="Pharmacy-medicine",description="This API URL will help to manage medicine")
 public class MedicineController 
 {
@@ -57,8 +67,8 @@ public class MedicineController
 	}
 	
 	@Operation(summary="GET operation",description="API will accept medicine name and get medicine info")
-	@GetMapping("/medicine/{medicineName}")
-	public ResponseEntity<Medicine> showMedicineByMedicineName(String medicineName)
+	@GetMapping("/getmedicine/{medicineName}")
+	public ResponseEntity<Medicine> showMedicineByMedicineName(@PathVariable("medicineName") String medicineName)
 	{
 		Medicine medicine = service.showMedicineByMedicineName(medicineName);
 		return new ResponseEntity<>(medicine,HttpStatus.OK);

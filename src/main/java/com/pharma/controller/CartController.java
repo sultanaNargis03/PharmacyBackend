@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,11 +19,19 @@ import com.pharma.model.Cart;
 import com.pharma.service.CartServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @CrossOrigin(origins="http://localhost:5173/")
 @RestController
 @RequestMapping("/api-cart")
+@SecurityScheme(
+		  name = "Bearer Authentication",
+		  type = SecuritySchemeType.HTTP,
+		  bearerFormat = "JWT",
+		  scheme = "bearer"
+		)
 @Tag(name="Pharmacy-cart",description="This API URL will help to order medicine")
 public class CartController 
 {
@@ -37,13 +46,13 @@ public class CartController
 		String msg = service.addToCart(medicineName,medicineQuantity);
 		return new ResponseEntity<>(msg,HttpStatus.CREATED);
 	}
-	
+	@Operation(summary="GET operation",description="API will show user carts")
 	@GetMapping("/cart")
 	public ResponseEntity<List<Cart>> showCarts()
 	{
 		return new ResponseEntity<>(service.showCarts(),HttpStatus.OK);
 	}
-	
+	@Operation(summary="DELETE operation",description="API will accept cart id delete the cart")
 	@DeleteMapping("/cart/{id}")
 	public ResponseEntity<String> removeFromCart(@PathVariable("id")Integer id)
 	{

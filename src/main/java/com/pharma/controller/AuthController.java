@@ -26,10 +26,10 @@ import com.pharma.model.UserEntity;
 import com.pharma.repo.RoleRepository;
 import com.pharma.repo.UserRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.core.io.ClassPathResource;
 
 import java.util.Collections;
@@ -59,8 +59,9 @@ public class AuthController
 	@Value("{spring.mail.username}")
 	private String fromId;
 	
+	@Operation(summary="POST operation",description="API will accept json LoginDto and will authenticate the user to perform login operation")
 	@PostMapping("login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto,HttpSession session){
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(),
@@ -73,6 +74,7 @@ public class AuthController
 	
 	
 	 @PostMapping("/register")
+	 @Operation(summary="POST operation",description="API will accept and json RegisterDto and will register the user")
 	    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) throws MessagingException 
 	 	{
 	        if (userRepository.existsByUsername(registerDto.getUsername())) 
@@ -88,7 +90,7 @@ public class AuthController
 	        user.setEmail(registerDto.getEmail());
 	        user.setPhnNo(registerDto.getPhnNo());
 	        
-	        Roles roles = roleRepository.findByName("USER").get();
+	        Roles roles = roleRepository.findByName("USERS").get();
 	        user.setRoles(Collections.singletonList(roles));
 	        //System.out.println(user.getRoles());
 	        

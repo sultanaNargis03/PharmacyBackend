@@ -1,5 +1,7 @@
 package com.pharma.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -8,33 +10,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Cart 
+public class Cart implements Serializable
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String itemName;
-	
-	public UserEntity getUser() {
-		return user;
-	}
-
-	public void setUser(UserEntity user) {
-		this.user = user;
-	}
-
 	private Double itemPrice;
 	private Integer itemQuantity;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private UserEntity user;
+		
 	
 	public Cart() 
 	{
 		
 	}
-
-	
 
 	public Cart(Integer id, String itemName, Double itemPrice, Integer itemQuantity, UserEntity user) {
 		super();
@@ -45,6 +37,13 @@ public class Cart
 		this.user = user;
 	}
 
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
+	}
 	public Integer getId() {
 		return id;
 	}
