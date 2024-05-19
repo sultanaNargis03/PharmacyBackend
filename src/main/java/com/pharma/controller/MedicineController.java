@@ -21,20 +21,13 @@ import com.pharma.model.Medicine;
 import com.pharma.service.MedicineServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @CrossOrigin(origins="http://localhost:5173/")
 @RestController
 @RequestMapping("/api")
-//@SecurityScheme(
-//		  name = "Bearer Authentication",
-//		  type = SecuritySchemeType.HTTP,
-//		  bearerFormat = "JWT",
-//		  scheme = "bearer"
-//		)
+
 @Tag(name="Pharmacy-medicine",description="This API URL will help to manage medicine")
 public class MedicineController 
 {
