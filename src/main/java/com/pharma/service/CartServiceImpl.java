@@ -91,7 +91,7 @@ public class CartServiceImpl implements ICartService
 					cartRepo.deleteById(id);
 					return cart.get().getItemName()+" with id "+id+" has been deleted!!";
 				}
-				return "you not authorized to remove the item with id "+id;
+				return "you are not authorized to remove the item with id "+id;
 			}
 			
 				return "id "+id+ " not exist!";
@@ -108,8 +108,8 @@ public class CartServiceImpl implements ICartService
 		List<Cart> cartItems = cartRepo.findByUser(user);
 		if(cartItems.isEmpty())
 		{
-			return null;
-			//throw new RuntimeException("your cart is empty!!");
+			//return null;
+			throw new RuntimeException("your cart is empty!!");
 		}
 		 return cartItems;
 	}	

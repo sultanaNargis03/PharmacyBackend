@@ -27,7 +27,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @CrossOrigin(origins="http://localhost:5173/")
 @RestController
 @RequestMapping("/api")
-
 @Tag(name="Pharmacy-medicine",description="This API URL will help to manage medicine")
 public class MedicineController 
 {
@@ -36,7 +35,7 @@ public class MedicineController
 	
 	@Operation(summary="POST operation",description="API will accept json medicine(don't need to give id,id is auto incremented) obj and add new medicine")
 	@PostMapping("/medicine")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public ResponseEntity<String> addMedicine(@RequestBody Medicine medicine)
 	{
 		String msg=service.addMedicine(medicine);

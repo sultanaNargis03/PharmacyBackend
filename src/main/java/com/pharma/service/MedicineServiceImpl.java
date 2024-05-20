@@ -62,9 +62,14 @@ public class MedicineServiceImpl implements IMedicineService {
 	public String updateMedicine(Integer id,Medicine medicine) 
 	{
 
-		Optional<Medicine> optional = repo.findById(id);
-		if(optional.isPresent())
+		Optional<Medicine> existingMedicine = repo.findById(id);
+		if(existingMedicine.isPresent())
 		{
+			existingMedicine.get().setmedicineName(medicine.getmedicineName());
+			existingMedicine.get().setMedicineComposition(medicine.getMedicineComposition());
+			existingMedicine.get().setMedicinePrice(medicine.getMedicinePrice());
+			existingMedicine.get().setMedicineQuantity(medicine.getMedicineQuantity());
+			existingMedicine.get().setExpiryDate(medicine.getExpiryDate());
 			repo.save(medicine);
 			return "Medicine with id "+id +" updated successfully!!";
 		}
