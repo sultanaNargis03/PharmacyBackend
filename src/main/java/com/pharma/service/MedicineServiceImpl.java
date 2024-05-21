@@ -70,7 +70,9 @@ public class MedicineServiceImpl implements IMedicineService {
 			existingMedicine.get().setMedicinePrice(medicine.getMedicinePrice());
 			existingMedicine.get().setMedicineQuantity(medicine.getMedicineQuantity());
 			existingMedicine.get().setExpiryDate(medicine.getExpiryDate());
+			
 			repo.save(medicine);
+			
 			return "Medicine with id "+id +" updated successfully!!";
 		}
 		else

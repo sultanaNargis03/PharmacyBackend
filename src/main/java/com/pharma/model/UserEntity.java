@@ -28,22 +28,15 @@ public class UserEntity
 	
 	@OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<Cart> cart;
+
 	@ManyToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private List<Roles> roles=new ArrayList<>();
 	
-	public List<Roles> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Roles> roles) {
-		this.roles = roles;
-	}
 
 	public UserEntity() 
 	{
 		
-	}
-
+	}	
 
 	public UserEntity(Long id, String username, String password, String email, String phnNo, List<Cart> cart,
 			List<Roles> roles) {
@@ -57,6 +50,16 @@ public class UserEntity
 		this.roles = roles;
 	}
 
+
+
+
+	public List<Roles> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Roles> roles) {
+		this.roles = roles;
+	}
 	public List<Cart> getCart() {
 		return cart;
 	}

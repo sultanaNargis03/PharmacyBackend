@@ -1,5 +1,6 @@
 package com.pharma.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.pharma.model.Cart;
 import com.pharma.model.Medicine;
+import com.pharma.model.CheckOut;
 import com.pharma.model.UserEntity;
 import com.pharma.repo.ICartRepository;
 import com.pharma.repo.IMedicineRepo;
+import com.pharma.repo.IOrderRepository;
 import com.pharma.repo.UserRepository;
 
 @Service
@@ -24,6 +27,9 @@ public class CartServiceImpl implements ICartService
 	
 	@Autowired
 	ICartRepository cartRepo;
+	
+	@Autowired
+	IOrderRepository orderRepo;
 	
 	@Autowired
 	UserRepository userRepo;
@@ -110,8 +116,45 @@ public class CartServiceImpl implements ICartService
 		{
 			//return null;
 			throw new RuntimeException("your cart is empty!!");
+						
 		}
 		 return cartItems;
+	}
+
+	@Override
+	public CheckOut checkout() 
+	{
+		UserEntity user = getCurrentUser().get();
+		
+		List<Cart> cartItems = cartRepo.findByUser(user);
+		if(cartItems.isEmpty())
+		{
+			
+			throw new RuntimeException("you can't perform checkout when your cart is empty!!");
+						
+		}
+		CheckOut order=new CheckOut();
+		
+		List<String> iname=new ArrayList<>();
+		Double iprice=0.0;
+		Integer iquantity=0;
+		
+		for(Cart carts:cartItems)
+		{
+			iname.add(carts.getItemName());
+			iprice+=carts.getItemPrice();
+			iquantity+=carts.getItemQuantity();
+		}
+		
+		order.setItemNames(iname);
+		order.setTotalPrice(iprice);
+		order.setTotalItem(iquantity);
+		orderRepo.save(order);
+		
+		cartRepo.deleteAll();
+		
+		
+		return order;
 	}	
 
 }

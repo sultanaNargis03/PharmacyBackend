@@ -1,6 +1,6 @@
 package com.pharma.model;
 
-import java.io.Serializable;
+
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Cart implements Serializable
+public class Cart
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
