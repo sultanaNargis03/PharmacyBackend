@@ -3,23 +3,34 @@ package com.pharma.model;
 public class AuthResponseDTO 
 {
 	 private String accessToken;
-	    private String tokenType = "Bearer ";
+	 private String tokenType = "Bearer ";
+	 private String currentUserName;
 
-	    public AuthResponseDTO(String accessToken) {
-	        this.accessToken = accessToken;
-	    }
+	    public String getCurrentUserName() {
+		return currentUserName;
+	}
 
-		public AuthResponseDTO(String accessToken, String tokenType) {
+		public AuthResponseDTO(String accessToken, String currentUserName) {
 			super();
 			this.accessToken = accessToken;
-			this.tokenType = tokenType;
+			this.currentUserName = currentUserName;
 		}
+
 
 		public AuthResponseDTO() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
 
+		public void setCurrentUserName(String currentUserName) {
+			this.currentUserName = currentUserName;
+		}
+
+		
+
+			public AuthResponseDTO(String accessToken) {
+		        this.accessToken = accessToken;
+		    }
 		public String getAccessToken() {
 			return accessToken;
 		}
@@ -38,7 +49,8 @@ public class AuthResponseDTO
 
 		@Override
 		public String toString() {
-			return "AuthResponseDTO [accessToken=" + accessToken + ", tokenType=" + tokenType + "]";
+			return "AuthResponseDTO [accessToken=" + accessToken + ", tokenType=" + tokenType + ", currentUserName="
+					+ currentUserName + "]";
 		}
 	    
 	    

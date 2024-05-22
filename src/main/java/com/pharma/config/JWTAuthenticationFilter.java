@@ -8,6 +8,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
@@ -17,7 +21,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
   
-    private String getJWTFromRequest(jakarta.servlet.http.HttpServletRequest request) {
+    private String getJWTFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7, bearerToken.length());
@@ -26,8 +30,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     }
 
 	@Override
-	protected void doFilterInternal(jakarta.servlet.http.HttpServletRequest request,
-			jakarta.servlet.http.HttpServletResponse response, jakarta.servlet.FilterChain filterChain)
+	protected void doFilterInternal(HttpServletRequest request,
+			HttpServletResponse response, FilterChain filterChain)
 			throws jakarta.servlet.ServletException, IOException {
 		String token = getJWTFromRequest(request);
         if(StringUtils.hasText(token) && tokenGenerator.validateToken(token)) {

@@ -43,12 +43,22 @@ public class CartServiceImpl implements ICartService
 	@Override
 	public String addToCart(String medicineName,Integer medicineQuantity) 
 	{
-			
-		UserEntity user = getCurrentUser().get();
+		UserEntity user=getCurrentUser().get();;
+//		Optional<UserEntity> useropt = getCurrentUser();
+//		if(useropt.isPresent())
+//		{
+//		 user = getCurrentUser().get();
+//		}
+//		else
+//		{
+//			return "user not present!!";
+//		}
+		
 		
 		Cart existingCart=cartRepo.findByUserAndItemName(user, medicineName);
 		System.out.println("existingCart: "+existingCart);
-		Medicine med=repo.findBymedicineName(medicineName);
+		 
+		    Medicine med = repo.findByMedicineName(medicineName).get();
 		
 		Cart cart=new Cart();
 		
@@ -109,15 +119,18 @@ public class CartServiceImpl implements ICartService
 	public List<Cart> showCarts()
 	{
 	//	return cartRepo.findAll();
-		 UserEntity user = getCurrentUser().get();
-		 
-		List<Cart> cartItems = cartRepo.findByUser(user);
-		if(cartItems.isEmpty())
+		UserEntity user;
+		Optional<UserEntity> useropt = getCurrentUser();
+		if(useropt.isPresent())
 		{
-			//return null;
-			throw new RuntimeException("your cart is empty!!");
-						
+		 user = getCurrentUser().get();
 		}
+		else
+		{
+			throw new RuntimeException("user not present!!");
+		}
+//		 UserEntity user = getCurrentUser().get();
+		 List<Cart> cartItems = cartRepo.findByUser(user).orElseThrow(()->new RuntimeException("your cart is empty!!"));
 		 return cartItems;
 	}
 
@@ -126,7 +139,7 @@ public class CartServiceImpl implements ICartService
 	{
 		UserEntity user = getCurrentUser().get();
 		
-		List<Cart> cartItems = cartRepo.findByUser(user);
+		List<Cart> cartItems = cartRepo.findByUser(user).get();
 		if(cartItems.isEmpty())
 		{
 			
@@ -151,7 +164,7 @@ public class CartServiceImpl implements ICartService
 		order.setTotalItem(iquantity);
 		orderRepo.save(order);
 		
-		cartRepo.deleteAll();
+		//cartRepo.deleteAll();
 		
 		
 		return order;

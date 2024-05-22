@@ -82,7 +82,7 @@ public class MedicineServiceImpl implements IMedicineService {
 	@Override
 	public Medicine showMedicineByMedicineName(String medicineName) 
 	{
-		return repo.findBymedicineName(medicineName);
+		return repo.findByMedicineName(medicineName).get();
 	}
 
 }

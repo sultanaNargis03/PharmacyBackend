@@ -69,7 +69,8 @@ public class AuthController
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
         String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        String currentUserName=authentication.getName();
+        return new ResponseEntity<>(new AuthResponseDTO(token,currentUserName), HttpStatus.OK);
     }
 	
 	
