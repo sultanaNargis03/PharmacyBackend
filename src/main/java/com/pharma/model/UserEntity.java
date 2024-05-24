@@ -19,8 +19,6 @@ public class UserEntity
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-
 	private String username;
 	private String password;
 	private String email;
@@ -29,6 +27,9 @@ public class UserEntity
 	@OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	private List<Cart> cart;
 
+	@OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+	private List<CheckOut> checkout;
+	
 	@ManyToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	private List<Roles> roles=new ArrayList<>();
 	
@@ -39,7 +40,7 @@ public class UserEntity
 	}	
 
 	public UserEntity(Long id, String username, String password, String email, String phnNo, List<Cart> cart,
-			List<Roles> roles) {
+			List<CheckOut> checkout, List<Roles> roles) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -47,6 +48,7 @@ public class UserEntity
 		this.email = email;
 		this.phnNo = phnNo;
 		this.cart = cart;
+		this.checkout = checkout;
 		this.roles = roles;
 	}
 
@@ -108,10 +110,18 @@ public class UserEntity
 		this.phnNo = phnNo;
 	}
 
+	public List<CheckOut> getCheckout() {
+		return checkout;
+	}
+
+	public void setCheckout(List<CheckOut> checkout) {
+		this.checkout = checkout;
+	}
+
 	@Override
 	public String toString() {
 		return "UserEntity [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", phnNo=" + phnNo + ", cart=" + cart + ", roles=" + roles + "]";
+				+ ", phnNo=" + phnNo + ", cart=" + cart + ", checkout=" + checkout + ", roles=" + roles + "]";
 	}
 	
 

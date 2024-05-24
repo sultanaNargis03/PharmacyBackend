@@ -21,15 +21,17 @@ public class CheckOut
 	private Double totalPrice;
 	private Integer totalItem;
 	
-	@ManyToMany(fetch=FetchType.LAZY)
-	private List<UserEntity> user;
+//	@ManyToMany(fetch=FetchType.LAZY)
+//	private List<UserEntity> user;
+	@ManyToOne(fetch=FetchType.LAZY)
+	private UserEntity user;
 	
 	public CheckOut() 
 	{
 		
 	}
 
-	public CheckOut(Integer id, List<String> itemNames, Double totalPrice, Integer totalItem, List<UserEntity> user) {
+	public CheckOut(Integer id, List<String> itemNames, Double totalPrice, Integer totalItem, UserEntity user) {
 		super();
 		this.id = id;
 		this.itemNames = itemNames;
@@ -70,11 +72,11 @@ public class CheckOut
 		this.totalItem = totalItem;
 	}
 
-	public List<UserEntity> getUser() {
+	public UserEntity getUser() {
 		return user;
 	}
 
-	public void setUser(List<UserEntity> user) {
+	public void setUser(UserEntity user) {
 		this.user = user;
 	}
 
@@ -82,6 +84,8 @@ public class CheckOut
 	public String toString() {
 		return "CheckOut [id=" + id + ", itemNames=" + itemNames + ", totalPrice=" + totalPrice + ", totalItem="
 				+ totalItem + ", user=" + user + "]";
-	}	
+	}
+
+	
 
 }

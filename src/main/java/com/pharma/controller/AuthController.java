@@ -56,6 +56,9 @@ public class AuthController
 	@Autowired
 	private JavaMailSender sender;
 	
+	@Autowired
+	UserRepository userRepo;
+	
 	@Value("{spring.mail.username}")
 	private String fromId;
 	
@@ -69,8 +72,8 @@ public class AuthController
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
         String token = jwtGenerator.generateToken(authentication);
-        String currentUserName=authentication.getName();
-        return new ResponseEntity<>(new AuthResponseDTO(token,currentUserName), HttpStatus.OK);
+       
+        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 	
 	

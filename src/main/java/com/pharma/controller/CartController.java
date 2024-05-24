@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @CrossOrigin(origins="http://localhost:5173/")
 @RestController
 @RequestMapping("/api-cart")
-@Tag(name="Pharmacy-cart",description="This API URL will help to order medicine")
+@Tag(name="Pharmacy-cart",description="This API URL will help to add medicines to cart")
 public class CartController 
 {
 	@Autowired
@@ -51,12 +52,5 @@ public class CartController
 	{
 		String msg=service.removeFromCart(id);
 		return new ResponseEntity<>(msg,HttpStatus.OK);
-	}
-	
-	@Operation(summary="GET operation",description="API to order your medicine")
-	@GetMapping("/cart-checkout")
-	public ResponseEntity<CheckOut> checkout()
-	{
-		return new ResponseEntity<>(service.checkout(),HttpStatus.OK);
 	}
 }
