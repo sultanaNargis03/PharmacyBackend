@@ -6,7 +6,7 @@ import com.pharma.model.Medicine;
 
 public interface IMedicineService 
 {
-
+	
 	public String addMedicine(Medicine medicine);
 	public List<Medicine> showAllMedicines();
 	public Medicine showMedicineById(Integer id);

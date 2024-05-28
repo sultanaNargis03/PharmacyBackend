@@ -4,18 +4,21 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.pharma.model.Medicine;
 import com.pharma.repo.IMedicineRepo;
 
 @Service
+
 public class MedicineServiceImpl implements IMedicineService {
 
 	@Autowired
 	IMedicineRepo repo;
 	
 	@Override
+//	 @PreAuthorize("hasAuthority('ADMIN')")
 	public String addMedicine(Medicine medicine) 
 	{
 		List<Medicine> med = repo.findAll();
@@ -46,6 +49,7 @@ public class MedicineServiceImpl implements IMedicineService {
 	}
 
 	@Override
+	// @PreAuthorize("hasAuthority('ADMIN')")
 	public String deleteMedicineById(Integer id) 
 	{
 		Optional<Medicine> medicineId = repo.findById(id);
@@ -59,6 +63,7 @@ public class MedicineServiceImpl implements IMedicineService {
 	}
 
 	@Override
+	 //@PreAuthorize("hasAuthority('ADMIN')")
 	public String updateMedicine(Integer id,Medicine medicine) 
 	{
 
@@ -71,7 +76,7 @@ public class MedicineServiceImpl implements IMedicineService {
 			existingMedicine.get().setMedicineQuantity(medicine.getMedicineQuantity());
 			existingMedicine.get().setExpiryDate(medicine.getExpiryDate());
 			
-			repo.save(medicine);
+			repo.save(existingMedicine.get());
 			
 			return "Medicine with id "+id +" updated successfully!!";
 		}

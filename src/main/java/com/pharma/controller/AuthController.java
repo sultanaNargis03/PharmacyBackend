@@ -28,12 +28,15 @@ import com.pharma.repo.UserRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.PostConstruct;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.core.io.ClassPathResource;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 
 @CrossOrigin(origins="http://localhost:5173/")
@@ -61,7 +64,8 @@ public class AuthController
 	
 	@Value("{spring.mail.username}")
 	private String fromId;
-	
+		
+
 	@Operation(summary="POST operation",description="API will accept json LoginDto and will authenticate the user to perform login operation")
 	@PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDto loginDto){
@@ -93,8 +97,7 @@ public class AuthController
 	      //  System.out.println(registerDto.getPassword());
 	        user.setEmail(registerDto.getEmail());
 	        user.setPhnNo(registerDto.getPhnNo());
-	        
-	        Roles roles = roleRepository.findByName("USERS").get();
+	        Roles roles = roleRepository.findByName("ADMIN").get();
 	        user.setRoles(Collections.singletonList(roles));
 	        //System.out.println(user.getRoles());
 	        

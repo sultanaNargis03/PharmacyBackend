@@ -1,14 +1,12 @@
 package com.pharma.model;
 
-import org.springframework.security.core.GrantedAuthority;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Roles implements GrantedAuthority
+public class Roles
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,12 +43,6 @@ public class Roles implements GrantedAuthority
 	@Override
 	public String toString() {
 		return "Roles [id=" + id + ", name=" + name + "]";
-	}
-
-	@Override
-	public String getAuthority() {
-		
-		return this.name;
 	}
 
 }

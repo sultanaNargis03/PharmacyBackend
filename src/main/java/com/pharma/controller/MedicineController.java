@@ -35,7 +35,7 @@ public class MedicineController
 	
 	@Operation(summary="POST operation",description="API will accept json medicine(don't need to give id,id is auto incremented) obj and add new medicine")
 	@PostMapping("/medicine")
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> addMedicine(@RequestBody Medicine medicine)
 	{
 		String msg=service.addMedicine(medicine);
@@ -67,8 +67,8 @@ public class MedicineController
 	}
 	
 	@Operation(summary="PUT operation",description="API will accept json medicine obj and update medicine info")
+	@PutMapping("/update-medicine/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping("/medicine/{id}")
 	public ResponseEntity<String> updateMedicine(@PathVariable("id") Integer id,@RequestBody Medicine medicine)
 	{
 		String msg = service.updateMedicine(id,medicine);
@@ -76,8 +76,8 @@ public class MedicineController
 	}
 	
 	@Operation(summary="DELETE operation",description="API will accept medicine id and get delete medicine")
-	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/medicine/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> deleteMedicineById(@PathVariable("id") Integer id)
 	{
 		String msg = service.deleteMedicineById(id);
