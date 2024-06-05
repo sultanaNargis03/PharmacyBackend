@@ -32,7 +32,7 @@ public class SecurityConfig
 		.csrf(csrf-> csrf.disable())
 		.authorizeHttpRequests((authorize) -> {
             authorize.requestMatchers("/api/auth/**").permitAll();
-          //  authorize.requestMatchers("/**").permitAll();
+            authorize.requestMatchers("/v3/**", "/swagger-ui/**").permitAll();
             authorize.anyRequest().authenticated();
         })
 		.exceptionHandling(ex ->ex.authenticationEntryPoint(authEntryPoint))
@@ -56,4 +56,6 @@ public class SecurityConfig
     public JWTAuthenticationFilter jwtAuthenticationFilter() {
 	        return new JWTAuthenticationFilter();
 	    }
+    
+  
 }
