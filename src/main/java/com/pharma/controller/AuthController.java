@@ -97,7 +97,7 @@ public class AuthController
 	      //  System.out.println(registerDto.getPassword());
 	        user.setEmail(registerDto.getEmail());
 	        user.setPhnNo(registerDto.getPhnNo());
-	        Roles roles = roleRepository.findByName("ADMIN").get();
+	        Roles roles = roleRepository.findByName("USER").get();
 	        user.setRoles(Collections.singletonList(roles));
 	        //System.out.println(user.getRoles());
 	        

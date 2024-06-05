@@ -3,7 +3,6 @@ package com.pharma.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -32,9 +31,8 @@ public class SecurityConfig
 		return http
 		.csrf(csrf-> csrf.disable())
 		.authorizeHttpRequests((authorize) -> {
-            authorize.requestMatchers(HttpMethod.PUT, "/api/update-medicine/**").hasRole("ADMIN");
             authorize.requestMatchers("/api/auth/**").permitAll();
-            authorize.requestMatchers("/**").permitAll();
+          //  authorize.requestMatchers("/**").permitAll();
             authorize.anyRequest().authenticated();
         })
 		.exceptionHandling(ex ->ex.authenticationEntryPoint(authEntryPoint))
@@ -55,7 +53,7 @@ public class SecurityConfig
 	    }
 
     @Bean
-    JWTAuthenticationFilter jwtAuthenticationFilter() {
+    public JWTAuthenticationFilter jwtAuthenticationFilter() {
 	        return new JWTAuthenticationFilter();
 	    }
 }
