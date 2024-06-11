@@ -18,7 +18,6 @@ public class MedicineServiceImpl implements IMedicineService {
 	IMedicineRepo repo;
 	
 	@Override
-//	 @PreAuthorize("hasAuthority('ADMIN')")
 	public String addMedicine(Medicine medicine) 
 	{
 		List<Medicine> med = repo.findAll();

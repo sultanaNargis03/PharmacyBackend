@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,6 +35,7 @@ import jakarta.mail.internet.MimeMessage;
 import org.springframework.core.io.ClassPathResource;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -59,8 +61,6 @@ public class AuthController
 	@Autowired
 	private JavaMailSender sender;
 	
-	@Autowired
-	UserRepository userRepo;
 	
 	@Value("{spring.mail.username}")
 	private String fromId;
@@ -76,8 +76,12 @@ public class AuthController
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
         String token = jwtGenerator.generateToken(authentication);
-       
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+//      Collection<? extends GrantedAuthority> role = authentication.getAuthorities();
+
+        String role = authentication.getAuthorities().toString();
+        System.out.println(role);
+        
+        return new ResponseEntity<>(new AuthResponseDTO(token,role), HttpStatus.OK);
     }
 	
 	
