@@ -1,8 +1,5 @@
 package com.pharma.model;
 
-import java.util.Collection;
-
-import org.springframework.security.core.GrantedAuthority;
 
 public class AuthResponseDTO 
 {
@@ -57,7 +54,6 @@ public class AuthResponseDTO
 		return "AuthResponseDTO [accessToken=" + accessToken + ", tokenType=" + tokenType + ", role=" + role + "]";
 	}
 	 
-	
-	
+		
 	    
 }

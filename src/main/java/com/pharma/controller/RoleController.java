@@ -1,6 +1,7 @@
 package com.pharma.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +11,8 @@ import com.pharma.model.Roles;
 import com.pharma.service.RoleServiceImpl;
 
 @RestController
-@RequestMapping("api-role")
+@CrossOrigin(origins="http://localhost:5173/")
+@RequestMapping("/api-role")
 public class RoleController
 {
 	@Autowired	

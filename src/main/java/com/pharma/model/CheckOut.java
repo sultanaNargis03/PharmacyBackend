@@ -7,7 +7,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 
@@ -21,8 +20,6 @@ public class CheckOut
 	private Double totalPrice;
 	private Integer totalItem;
 	
-//	@ManyToMany(fetch=FetchType.LAZY)
-//	private List<UserEntity> user;
 	@ManyToOne(fetch=FetchType.LAZY)
 	private UserEntity user;
 	
