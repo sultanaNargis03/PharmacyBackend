@@ -15,6 +15,7 @@ import com.pharma.service.CheckoutServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 
 @CrossOrigin(origins="http://localhost:5173/")
 @RestController
@@ -27,7 +28,7 @@ public class CheckoutController
 	
 	@Operation(summary="GET operation",description="API to place your order")
 	@GetMapping("/checkout")
-	public ResponseEntity<CheckOut> checkout()
+	public ResponseEntity<CheckOut> checkout() throws MessagingException
 	{
 		return new ResponseEntity<>(service.checkout(),HttpStatus.OK);
 	}
