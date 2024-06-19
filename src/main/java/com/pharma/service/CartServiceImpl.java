@@ -83,13 +83,17 @@ public class CartServiceImpl implements ICartService
 		Long currentuserId = getCurrentUser().get().getId();
 		
 		Optional<Cart> cart=cartRepo.findById(id);
-		
+		String cartItem = cart.get().getItemName();
+		Integer cartQuantity = cart.get().getItemQuantity();
 		
 			if(cart.isPresent())
 			{
 				if(cart.get().getUser().getId()==currentuserId)
 				{
+					Medicine med = repo.findByMedicineName(cartItem).get();
+					 med.setMedicineQuantity(med.getMedicineQuantity()+cartQuantity);
 					cartRepo.deleteById(id);
+					 
 					return cart.get().getItemName()+" with id "+id+" has been deleted!!";
 				}
 				return "you are not authorized to remove the item with id "+id;
