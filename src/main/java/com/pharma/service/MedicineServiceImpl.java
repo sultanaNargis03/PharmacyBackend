@@ -47,7 +47,6 @@ public class MedicineServiceImpl implements IMedicineService {
 	}
 
 	@Override
-	// @PreAuthorize("hasAuthority('ADMIN')")
 	public String deleteMedicineById(Integer id) 
 	{
 		Optional<Medicine> medicineId = repo.findById(id);
@@ -61,7 +60,6 @@ public class MedicineServiceImpl implements IMedicineService {
 	}
 
 	@Override
-	 //@PreAuthorize("hasAuthority('ADMIN')")
 	public String updateMedicine(Integer id,Medicine medicine) 
 	{
 

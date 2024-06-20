@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pharma.exception.MedicineNotAvailableException;
+import com.pharma.exception.MedicineNotFoundException;
 import com.pharma.model.Cart;
 import com.pharma.service.CartServiceImpl;
 
@@ -34,8 +36,17 @@ public class CartController
 	@PostMapping("/cart/{medicineName}")
 	public ResponseEntity<String> addToCart(@PathVariable("medicineName") String medicineName, @RequestBody Integer medicineQuantity)
 	{
+		try {
 		String msg = service.addToCart(medicineName,medicineQuantity);
-		return new ResponseEntity<>(msg,HttpStatus.CREATED);
+		return new ResponseEntity<>(msg,HttpStatus.OK);
+		}
+		catch (MedicineNotAvailableException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (MedicineNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
 	}
 	@Operation(summary="GET operation",description="API will show user carts")
 	@GetMapping("/cart")

@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.pharma.exception.MedicineNotAvailableException;
 import com.pharma.exception.MedicineNotFoundException;
 import com.pharma.model.Cart;
 import com.pharma.model.Medicine;
@@ -48,8 +49,10 @@ public class CartServiceImpl implements ICartService
 		Cart cart=new Cart();
 		
 		if(medicineQuantity>med.getMedicineQuantity())
-		{
-			return "Medicine "+med.getmedicineName()+" not availble!!";
+		{		
+			
+			throw new MedicineNotAvailableException("Medicine " + med.getmedicineName() + " quantity: " + medicineQuantity + " not available. Available quantity: " + med.getMedicineQuantity());
+			//return "Medicine "+med.getmedicineName()+" quantity: "+medicineQuantity +" not availble "+"\n Available quantity:"+med.getMedicineQuantity();
 		}
 		else
 		{

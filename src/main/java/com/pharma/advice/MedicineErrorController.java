@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.pharma.exception.MedicineNotAvailableException;
 import com.pharma.exception.MedicineNotFoundException;
 
 @RestControllerAdvice
@@ -19,6 +20,15 @@ public class MedicineErrorController
 		
 		return new ResponseEntity<ErrorDetails>(error,HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(MedicineNotAvailableException.class)
+	public ResponseEntity<ErrorDetails> handleExceptionMedicine(MedicineNotAvailableException ex)
+	{
+		ErrorDetails error=new ErrorDetails("409 not available",ex.getMessage(),LocalDateTime.now());
+		
+		return new ResponseEntity<ErrorDetails>(error,HttpStatus.BAD_REQUEST);
+	}
+	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorDetails> handleException(Exception ex)
 	{
