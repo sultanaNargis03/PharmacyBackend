@@ -51,32 +51,52 @@ public class CartServiceImpl implements ICartService
 		if(medicineQuantity>med.getMedicineQuantity())
 		{		
 			
-			throw new MedicineNotAvailableException("Medicine " + med.getmedicineName() + " quantity: " + medicineQuantity + " not available. Available quantity: " + med.getMedicineQuantity());
+			throw new MedicineNotAvailableException("Medicine " + med.getmedicineName() + " requested quantity: " + medicineQuantity + " not available. Available quantity: " + med.getMedicineQuantity());
 			//return "Medicine "+med.getmedicineName()+" quantity: "+medicineQuantity +" not availble "+"\n Available quantity:"+med.getMedicineQuantity();
 		}
 		else
 		{
-			
+			Integer newMedicineQuantity=0;
+			Double price;
+			Double total;
 			
 			if(existingCart!=null)
 			{
-				medicineQuantity+=existingCart.getItemQuantity();
+				newMedicineQuantity=existingCart.getItemQuantity()+medicineQuantity;
 				cart.setId(existingCart.getId());
+				price=med.getMedicinePrice();
+				total=existingCart.getItemPrice()+(price*medicineQuantity);
+				med.setMedicineQuantity(med.getMedicineQuantity()-medicineQuantity);
+				repo.save(med);
+				
+				cart.setItemName(medicineName);
+				cart.setItemQuantity(newMedicineQuantity);
+				cart.setItemPrice(total);
+				cart.setUser(user);
+				cartRepo.save(cart);
 			
 			}		
 			
-			Double price=med.getMedicinePrice();
-			Double total=price*medicineQuantity;
-			med.setMedicineQuantity(med.getMedicineQuantity()-medicineQuantity);
-			repo.save(med);
+			else
+			{
+				price=med.getMedicinePrice();
+				total=price*medicineQuantity;
+				
+				med.setMedicineQuantity(med.getMedicineQuantity()-medicineQuantity);
+				repo.save(med);
+				
+				cart.setItemName(medicineName);
+				cart.setItemQuantity(medicineQuantity);
+				cart.setItemPrice(total);
+				cart.setUser(user);
+				cartRepo.save(cart);
+			}
 	
-			cart.setItemName(medicineName);
-			cart.setItemQuantity(medicineQuantity);
-			cart.setItemPrice(total);
-			cart.setUser(user);
-			cartRepo.save(cart);
+			
+			
 					
 			return "Medicine "+med.getmedicineName()+" added to cart successfully!!"+" $ "+total;
+			
 		}
 	}
 
